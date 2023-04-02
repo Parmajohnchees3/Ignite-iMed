@@ -1,5 +1,4 @@
 from flask import Flask, render_template, redirect, url_for, request, jsonify
-from flask_cors import CORS, cross_origin
 import json
 import re
 import ast
@@ -7,6 +6,7 @@ import os
 import openai
 from dotenv import load_dotenv
 from ML.disease_classifier import DiseaseClassifier
+from flask_cors import CORS
 
 disease_classifier = DiseaseClassifier()
 disease_classifier.train_model()
@@ -16,7 +16,7 @@ api_key = os.getenv('OPEN_API_KEY')
 openai.api_key = api_key
 
 app = Flask(__name__)
-# cors = CORS(app)
+CORS(app, origins=["http://localhost:3000", "*"])
 
 @app.route('/')
 def start():
@@ -24,7 +24,6 @@ def start():
 
 
 @app.route('/api/process_data/')
-@cross_origin()
 def get_disease():
     def extract_array(s):
         array_pattern = r'\[.*?\]'
@@ -46,7 +45,7 @@ def get_disease():
             messages = [ 
                 {"role": "user", "content": input}],
             model="gpt-3.5-turbo",
-        )   
+        ) 
     text = response.choices[0].message.content
     arr = extract_array(text)
     if arr is None:

@@ -4,6 +4,7 @@ import "./App.css";
 import React, { useState } from "react";
 import axios from "axios";
 
+
 const App = () => {
   const [inputText, setInputText] = useState("");
   const [classification, setClassification] = useState("");
@@ -21,8 +22,6 @@ const App = () => {
       })
       .catch((error) => {});
   };
-
-  // const classificationText = classification.toLowerCase()
 
   return (
     <div>
