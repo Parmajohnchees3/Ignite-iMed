@@ -1,4 +1,5 @@
 import pandas as pd 
+import numpy as np
 
 from sklearn import preprocessing
 from sklearn.ensemble import RandomForestClassifier
@@ -28,5 +29,7 @@ class DiseaseClassifier:
         return self.model.score(X_test, y_test)
 
     def predict(self, symptoms):
-        disease_num = self.model.predict(symptoms)
+        prediction_input = np.array(symptoms).reshape(1,-1)
+        print(prediction_input)
+        disease_num = self.model.predict(prediction_input)
         return self.le.inverse_transform(disease_num)
