@@ -9,7 +9,7 @@ class DiseaseClassifier:
         self.le = preprocessing.LabelEncoder()
     
     def train_model(self):
-        df_train = pd.read_csv("data/Training.csv")
+        df_train = pd.read_csv("ML/Training.csv")
         df_train.drop(df_train.columns[len(df_train.columns)-1], axis=1, inplace=True)
 
         y_train = df_train["prognosis"]
@@ -21,7 +21,7 @@ class DiseaseClassifier:
         self.model = rf.fit(X_train, y_train)
     
     def evaluate_model(self):
-        df_test = pd.read_csv("data/Testing.csv")
+        df_test = pd.read_csv("ML/Testing.csv")
         y_test = df_test["prognosis"]
         X_test = df_test.drop("prognosis", axis=1)
         y_test = self.le.transform(y_test)
